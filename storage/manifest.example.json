@@ -1,0 +1,28 @@
+{
+  "products": {
+    "1": {
+      "file_key": "products/1/dzd-al-tajer-al-thaki-ai.pdf",
+      "file_name": "DZD_Store_01_AlTajer_AlThaki_AI.pdf"
+    },
+    "2": {
+      "file_key": "products/2/social-media-templates.pptx",
+      "file_name": "DZD_Store_02_Social_Media_Templates.pptx"
+    },
+    "3": {
+      "file_key": "products/3/whatsapp-sales-kit.pdf",
+      "file_name": "DZD_Store_03_WhatsApp_Sales_Kit.pdf"
+    },
+    "4": {
+      "file_key": "products/4/business-excel-kit.xlsx",
+      "file_name": "DZD_Store_04_Business_Excel_Kit.xlsx"
+    },
+    "5": {
+      "file_key": "products/5/freelancer-ai-kit.pdf",
+      "file_name": "DZD_Store_05_Freelancer_AI_Kit.pdf"
+    },
+    "6": {
+      "file_key": "products/6/content-calendar.xlsx",
+      "file_name": "DZD_Store_06_Content_Calendar.xlsx"
+    }
+  }
+}
