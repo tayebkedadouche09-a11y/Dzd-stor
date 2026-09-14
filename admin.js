@@ -1,0 +1,22 @@
+const defaults=[
+{id:1,name:'التاجر الذكي AI',desc:'100 Prompt احترافي للتجارة والتسويق بالعربية',price:1490,cat:'prompts',icon:'🤖'},
+{id:2,name:'Social Media Templates',desc:'قوالب جاهزة لمنشورات Instagram وFacebook',price:1990,cat:'templates',icon:'🎨'},
+{id:3,name:'WhatsApp Sales Kit',desc:'رسائل وقوالب جاهزة لرفع المبيعات عبر واتساب',price:1790,cat:'kits',icon:'💬'},
+{id:4,name:'Business Excel Kit',desc:'ملفات Excel لتنظيم المبيعات والمصاريف والأرباح',price:2490,cat:'tools',icon:'📊'},
+{id:5,name:'Freelancer AI Kit',desc:'حزمة أدوات وPrompts للعمل الحر بذكاء',price:2990,cat:'kits',icon:'💼'},
+{id:6,name:'Content Calendar',desc:'تقويم محتوى جاهز لمدة 30 يوماً',price:990,cat:'templates',icon:'📅'}
+];
+const key='dzd-products';
+let products=JSON.parse(localStorage.getItem(key)||'null')||defaults;
+const money=n=>Number(n).toLocaleString('ar-DZ')+' دج';
+function save(){localStorage.setItem(key,JSON.stringify(products));render();}
+function render(){
+ document.getElementById('statProducts').textContent=products.length;
+ const cart=JSON.parse(localStorage.getItem('dzd-cart')||'[]');
+ document.getElementById('statCart').textContent=money(cart.reduce((s,p)=>s+Number(p.price||0),0));
+ document.getElementById('statOrders').textContent=localStorage.getItem('dzd-orders')||'0';
+ document.getElementById('productList').innerHTML=products.map(p=>`<div class="admin-row"><div><strong>${p.icon} ${p.name}</strong><div class="muted">${money(p.price)} · ${p.cat}</div></div><button class="danger" onclick="removeProduct(${p.id})">حذف</button></div>`).join('');
+}
+function removeProduct(id){if(confirm('هل تريد حذف هذا المنتج؟')){products=products.filter(p=>p.id!==id);save();}}
+document.getElementById('productForm').onsubmit=e=>{e.preventDefault();products.push({id:Date.now(),name:name.value.trim(),desc:desc.value.trim(),price:Number(price.value),cat:cat.value,icon:icon.value||'📦'});save();e.target.reset();icon.value='📦';};
+render();
