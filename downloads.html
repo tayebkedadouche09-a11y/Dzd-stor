@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تحميل المنتج | DZD Store</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header"><div class="container nav"><a class="logo" href="index.html">DZD<span>Store</span></a><a class="cart" href="index.html">← المتجر</a></div></header>
+<main class="container section">
+<section class="checkout-card" style="max-width:720px;margin:auto;text-align:center">
+<span class="badge">تحميل آمن</span>
+<h1>ملفات طلبك</h1>
+<p id="message">يتم تجهيز الوصول إلى ملفاتك بعد تأكيد الدفع.</p>
+<div id="downloadArea"></div>
+</section>
+</main>
+<script>
+/*
+  Static placeholder by design.
+  Do not put direct product URLs here.
+  Production flow:
+  1) Read order_id/token.
+  2) Ask the backend for authorization.
+  3) Backend verifies PAID status.
+  4) Backend returns a short-lived signed URL.
+*/
+const params=new URLSearchParams(location.search);
+const orderId=params.get('order_id');
+const area=document.getElementById('downloadArea');
+if(orderId){
+  area.innerHTML='<div class="success">رقم الطلب: <strong>'+orderId+'</strong><br>سيظهر زر التحميل هنا بعد ربط الخادم والتأكد من الدفع.</div>';
+}else{
+  area.innerHTML='<div class="empty">لم يتم تحديد رقم الطلب.</div>';
+}
+</script>
+</body>
+</html>
