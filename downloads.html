@@ -1,39 +1,27 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>تحميل المنتج | DZD Store</title>
-<link rel="stylesheet" href="styles.css">
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تحميل المنتج | DZD Store</title><link rel="stylesheet" href="styles.css"></head>
 <body>
 <header class="header"><div class="container nav"><a class="logo" href="index.html">DZD<span>Store</span></a><a class="cart" href="index.html">← المتجر</a></div></header>
-<main class="container section">
-<section class="checkout-card" style="max-width:720px;margin:auto;text-align:center">
-<span class="badge">تحميل آمن</span>
-<h1>ملفات طلبك</h1>
-<p id="message">يتم تجهيز الوصول إلى ملفاتك بعد تأكيد الدفع.</p>
-<div id="downloadArea"></div>
-</section>
-</main>
+<main class="container section"><section class="checkout-card" style="max-width:720px;margin:auto;text-align:center"><span class="badge">تحميل آمن</span><h1>ملفات طلبك</h1><p id="message">يتم التحقق من صلاحية التحميل…</p><div id="downloadArea"></div></section></main>
 <script>
-/*
-  Static placeholder by design.
-  Do not put direct product URLs here.
-  Production flow:
-  1) Read order_id/token.
-  2) Ask the backend for authorization.
-  3) Backend verifies PAID status.
-  4) Backend returns a short-lived signed URL.
-*/
 const params=new URLSearchParams(location.search);
 const orderId=params.get('order_id');
+const productId=params.get('product_id');
 const area=document.getElementById('downloadArea');
-if(orderId){
-  area.innerHTML='<div class="success">رقم الطلب: <strong>'+orderId+'</strong><br>سيظهر زر التحميل هنا بعد ربط الخادم والتأكد من الدفع.</div>';
-}else{
-  area.innerHTML='<div class="empty">لم يتم تحديد رقم الطلب.</div>';
+const message=document.getElementById('message');
+const FUNCTION_URL=window.DZD_DOWNLOAD_FUNCTION_URL||'';
+async function load(){
+  if(!orderId||!productId){message.textContent='رابط التحميل ناقص.';return;}
+  if(!FUNCTION_URL){message.textContent='نظام التحميل الآمن جاهز، وينتظر عنوان مشروع Supabase.';area.innerHTML='<div class="empty">سيتم تفعيل التحميل بعد إعداد Backend وPrivate Storage.</div>';return;}
+  try{
+    const r=await fetch(FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order_id:orderId,product_id:Number(productId)})});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error||'تعذر إنشاء رابط التحميل');
+    area.innerHTML='<a class="primary" href="'+data.download_url+'">📥 تحميل المنتج</a><p class="muted">الرابط مؤقت وصالح لمدة '+Math.round(data.expires_in/60)+' دقائق.</p>';
+    message.textContent='تم التحقق من الطلب ويمكنك التحميل الآن.';
+  }catch(e){message.textContent=e.message;}
 }
+load();
 </script>
-</body>
-</html>
+</body></html>
