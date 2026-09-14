@@ -1,0 +1,15 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+supabase/.env
+supabase/.env.*
+
+# Local paid product files - NEVER commit these to the public repo
+product-files/
+private-products/
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+*.zip
